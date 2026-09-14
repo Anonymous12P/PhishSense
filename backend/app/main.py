@@ -4,6 +4,7 @@ from app.api.v1.router import router as v1_router
 from app.core.exceptions import register_exception_handlers
 from app.core.lifespan import lifespan
 from app.core.settings import get_settings
+from app.middleware.request_middleware import RequestMiddleware
 
 
 # Load configuration once so application metadata and runtime behavior use the
@@ -30,6 +31,11 @@ app = FastAPI(
         "identifier": "Apache-2.0",
     },
 )
+
+
+# Register request tracing before routes so every HTTP request is measured and
+# logged, including requests handled by exception handlers.
+app.add_middleware(RequestMiddleware)
 
 
 # Register one consistent JSON error contract for all application failures.
