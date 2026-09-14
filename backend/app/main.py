@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.api.v1.router import router as v1_router
+from app.core.exceptions import register_exception_handlers
 from app.core.lifespan import lifespan
 from app.core.settings import get_settings
 
@@ -29,6 +30,10 @@ app = FastAPI(
         "identifier": "Apache-2.0",
     },
 )
+
+
+# Register one consistent JSON error contract for all application failures.
+register_exception_handlers(app)
 
 
 # Register versioned API routes separately from application-level endpoints.
