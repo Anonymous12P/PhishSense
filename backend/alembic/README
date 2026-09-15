@@ -1,0 +1,6 @@
+PhishSense database migrations
+===============================
+
+Alembic manages versioned schema changes for the SQLAlchemy models.
+Migration revisions will be created in the versions directory after models
+are added to app.db.

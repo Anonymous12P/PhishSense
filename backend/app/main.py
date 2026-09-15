@@ -4,7 +4,6 @@ from app.api.v1.router import router as v1_router
 from app.core.exceptions import register_exception_handlers
 from app.core.lifespan import lifespan
 from app.core.settings import get_settings
-from app.middleware.request_middleware import RequestMiddleware
 
 
 # Load configuration once so application metadata and runtime behavior use the
@@ -16,12 +15,16 @@ settings = get_settings()
 # now and can be made environment-dependent when deployment settings mature.
 app = FastAPI(
     title=settings.app_name,
+    summary="Phishing threat detection and analysis API",
     version=settings.app_version,
     debug=settings.debug,
     lifespan=lifespan,
     docs_url="/docs",
     redoc_url="/redoc",
-    description="An API for detecting and analyzing phishing threats.",
+    description=(
+        "PhishSense provides APIs for detecting, analyzing, and monitoring "
+        "phishing threats."
+    ),
     contact={
         "name": "PhishSense Team",
         "email": "support@phishsense.example",
@@ -29,13 +32,27 @@ app = FastAPI(
     license_info={
         "name": "Apache 2.0",
         "identifier": "Apache-2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
     },
+    openapi_tags=[
+        {
+            "name": "Health",
+            "description": "Service health and availability checks.",
+        },
+        {
+            "name": "Authentication",
+            "description": "Authentication and access control operations.",
+        },
+        {
+            "name": "Prediction",
+            "description": "Phishing threat prediction operations.",
+        },
+        {
+            "name": "Analytics",
+            "description": "Threat metrics, trends, and analytical insights.",
+        },
+    ],
 )
-
-
-# Register request tracing before routes so every HTTP request is measured and
-# logged, including requests handled by exception handlers.
-app.add_middleware(RequestMiddleware)
 
 
 # Register one consistent JSON error contract for all application failures.
@@ -47,7 +64,12 @@ app.include_router(v1_router)
 
 
 # Provide a lightweight endpoint for confirming that the API is running.
-@app.get("/")
+@app.get(
+    "/",
+    summary="Get API status",
+    description="Return the application name, runtime status, and API version.",
+    tags=["Health"],
+)
 def root():
     return {
         "application": "PhishSense",
