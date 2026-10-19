@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     host: str = "127.0.0.1"
     port: int = Field(default=8000, ge=1, le=65535)
     database_url: str | None = None
+    secret_key: str | None = None
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = Field(default=30, gt=0)
 
     model_config = SettingsConfigDict(
         env_file=".env",

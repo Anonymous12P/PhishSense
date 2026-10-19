@@ -1,4 +1,17 @@
+# ==========================
+# Datasets (Do NOT upload)
+# ==========================
+backend/datasets/
+
+# Generated storage
+storage/
+
+# Model checkpoints (optional)
+# backend/models/
+
+# ==========================
 # Python
+# ==========================
 *.py[cod]
 *$py.class
 *.so
@@ -12,7 +25,7 @@ venv/
 env/
 ENV/
 
-# Python caches and tooling
+# Python caches
 __pycache__/
 .pytest_cache/
 .mypy_cache/
@@ -20,7 +33,7 @@ __pycache__/
 .coverage
 htmlcov/
 
-# Environment files
+# Environment
 .env
 .env.*
 !.env.example
@@ -32,16 +45,18 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Build outputs
+# Build
 build/
 dist/
 *.egg-info/
 
-# IDE files
+# IDE
 .vscode/
 .idea/
 *.iml
 *.swp
 *.swo
+
+# OS
 .DS_Store
 Thumbs.db

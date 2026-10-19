@@ -1,7 +1,12 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Boolean, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base_model import TimestampModel
+
+if TYPE_CHECKING:
+    from app.models.scan import Scan
 
 
 class User(TimestampModel):
@@ -43,3 +48,8 @@ class User(TimestampModel):
         default=True,
     )
     """Flag indicating whether the user is allowed to access the application."""
+
+    scans: Mapped[list["Scan"]] = relationship(
+        "Scan",
+        back_populates="user",
+    )
